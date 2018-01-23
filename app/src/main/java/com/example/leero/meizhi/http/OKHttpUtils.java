@@ -2,7 +2,7 @@ package com.example.leero.meizhi.http;
 
 import android.util.Log;
 
-import com.example.leero.meizhi.App;
+import com.example.leero.meizhi.base.App;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

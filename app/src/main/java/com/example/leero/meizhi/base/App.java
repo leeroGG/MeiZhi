@@ -1,4 +1,4 @@
-package com.example.leero.meizhi;
+package com.example.leero.meizhi.base;
 
 import android.app.Application;
 
