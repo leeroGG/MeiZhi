@@ -49,9 +49,9 @@ public class OKHttpUtils {
 
         mOkHttpClient = new OkHttpClient.Builder()
                 // 设置请求读写的超时时间
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
                 // 添加拦截器
                 .addInterceptor(logInterceptor)
                 .cache(cache)
