@@ -7,10 +7,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,10 +18,9 @@ import com.example.leero.meizhi.adapter.MeiZhiAdapter;
 import com.example.leero.meizhi.base.BaseActivity;
 import com.example.leero.meizhi.bean.MeiZhi;
 import com.example.leero.meizhi.presenter.MeiZhiPresenterImpl;
+import com.example.leero.meizhi.widget.CustomLoadMoreView;
 import com.example.leero.meizhi.widget.SpacesItemDecoration;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -78,6 +75,7 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         // 上下拉设置
         refreshLayout.setOnRefreshListener(this);
         mAdapter.setOnLoadMoreListener(this, recyclerView);
+        mAdapter.setLoadMoreView(new CustomLoadMoreView());
 
         // 侧滑菜单打开后主内容区域设置没有阴影覆盖
 //        drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -88,15 +86,15 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "刷新可以下拉，这里的功能先放着", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
+                page = 1;
+                recyclerView.scrollToPosition(0);
+                loadData();
             }
         });
     }
 
     @Override
     protected void loadData() {
-        Log.d("111", "page---" + page);
         mPresenter.getMeiZhiData(per, page);
     }
 
@@ -105,6 +103,7 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         if (!meiZhi.isError()) {
             if (page == 1) {
                 mAdapter.setNewData(meiZhi.getResults());
+                Snackbar.make(fab, "妹纸装载完成", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
             } else {
                 mAdapter.addData(meiZhi.getResults());
             }
@@ -116,7 +115,6 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         }
 
         refreshLayout.setRefreshing(false);
-        Snackbar.make(fab, "数据加载成功", Snackbar.LENGTH_LONG).setAction("Action", null).show();
     }
 
     @Override
@@ -124,8 +122,6 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         page = 1;
         refreshLayout.setRefreshing(true);
         loadData();
-
-        Log.d("111", "11111111111111111");
     }
 
     @Override
@@ -159,7 +155,7 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
 
     @Override
     public void showError(String msg) {
-        Snackbar.make(fab, "数据加载错误，请稍后尝试", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        Snackbar.make(fab, "数据加载错误，请稍后尝试", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
     }
 
     // 设置监听让主页面跟着滑动

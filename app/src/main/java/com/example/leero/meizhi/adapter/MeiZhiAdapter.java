@@ -30,7 +30,7 @@ public class MeiZhiAdapter extends BaseQuickAdapter<MeiZhi.ResultsBean, BaseView
 
         // 设置图片的随机高度
         ViewGroup.LayoutParams params = image.getLayoutParams();
-        params.height =  (int) (400 + Math.random() * 650) ;
+        params.height = (int) (400 + Math.random() * 650);
         image.setLayoutParams(params);
 
         Glide.with(mContext).load(item.getUrl()).into(image);
