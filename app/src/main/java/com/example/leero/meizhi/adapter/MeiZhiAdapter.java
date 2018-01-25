@@ -1,6 +1,7 @@
 package com.example.leero.meizhi.adapter;
 
 import android.content.Context;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -8,8 +9,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.leero.meizhi.R;
 import com.example.leero.meizhi.bean.MeiZhi;
-
-import java.util.List;
 
 /**
  * author : Leero
@@ -20,14 +19,20 @@ public class MeiZhiAdapter extends BaseQuickAdapter<MeiZhi.ResultsBean, BaseView
 
     private Context mContext;
 
-    public MeiZhiAdapter(Context context, int layoutResId, List<MeiZhi.ResultsBean> data) {
-        super(layoutResId, data);
+    public MeiZhiAdapter(Context context, int layoutResId) {
+        super(layoutResId);
         this.mContext = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MeiZhi.ResultsBean item) {
         ImageView image = helper.getView(R.id.image_view);
+
+        // 设置图片的随机高度
+        ViewGroup.LayoutParams params = image.getLayoutParams();
+        params.height =  (int) (400 + Math.random() * 650) ;
+        image.setLayoutParams(params);
+
         Glide.with(mContext).load(item.getUrl()).into(image);
     }
 }

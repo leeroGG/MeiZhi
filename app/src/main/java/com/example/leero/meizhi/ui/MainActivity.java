@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -42,7 +43,6 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
     SwipeRefreshLayout refreshLayout;
 
     private MeiZhiAdapter mAdapter;
-    private List<MeiZhi.ResultsBean> dataList;
     private int page; // 页数
     private int per; // 每页数据量
 
@@ -60,8 +60,7 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
     protected void initVariable() {
         page = 1;
         per = 30;
-        dataList = new ArrayList<>();
-        mAdapter = new MeiZhiAdapter(this, R.layout.item_meizhi, dataList);
+        mAdapter = new MeiZhiAdapter(this, R.layout.item_meizhi);
     }
 
     @Override
@@ -104,13 +103,16 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
     @Override
     public void getGirlsFinished(MeiZhi meiZhi) {
         if (!meiZhi.isError()) {
-            dataList.addAll(meiZhi.getResults());
+            if (page == 1) {
+                mAdapter.setNewData(meiZhi.getResults());
+            } else {
+                mAdapter.addData(meiZhi.getResults());
+            }
             mAdapter.loadMoreComplete();
 
             if (meiZhi.getResults().size() < per) {
                 mAdapter.loadMoreEnd();
             }
-            mAdapter.notifyDataSetChanged();
         }
 
         refreshLayout.setRefreshing(false);
@@ -120,7 +122,6 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
     @Override
     public void onRefresh() {
         page = 1;
-        dataList.clear();
         refreshLayout.setRefreshing(true);
         loadData();
 
