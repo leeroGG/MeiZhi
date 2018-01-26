@@ -17,7 +17,7 @@
         android:layout_gravity="center"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textColor="@color/text_color"
+        android:textColor="@color/white"
         android:textSize="18sp"
         tools:text="N/A" />
 

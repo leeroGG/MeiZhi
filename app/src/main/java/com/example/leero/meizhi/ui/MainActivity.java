@@ -14,13 +14,12 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.leero.meizhi.R;
-import com.example.leero.meizhi.adapter.MeiZhiAdapter;
 import com.example.leero.meizhi.base.BaseActivity;
 import com.example.leero.meizhi.bean.MeiZhi;
 import com.example.leero.meizhi.presenter.MeiZhiPresenterImpl;
+import com.example.leero.meizhi.ui.adapter.MeiZhiAdapter;
 import com.example.leero.meizhi.widget.CustomLoadMoreView;
 import com.example.leero.meizhi.widget.SpacesItemDecoration;
-
 
 import butterknife.BindView;
 
@@ -89,6 +88,15 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
                 page = 1;
                 recyclerView.scrollToPosition(0);
                 loadData();
+            }
+        });
+
+        // item点击事件
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                MeiZhi.ResultsBean data = (MeiZhi.ResultsBean) adapter.getItem(position);
+                startActivity(PhotoActivity.newInstance(MainActivity.this, data.getUrl()));
             }
         });
     }

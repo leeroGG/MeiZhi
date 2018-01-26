@@ -1,4 +1,4 @@
-package com.example.leero.meizhi.adapter;
+package com.example.leero.meizhi.ui.adapter;
 
 import android.content.Context;
 import android.view.ViewGroup;
