@@ -10,6 +10,13 @@
     app:elevation="1dp"
     app:navigationIcon="@mipmap/back">
 
+    <com.example.leero.meizhi.widget.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:src="@mipmap/avatar"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"

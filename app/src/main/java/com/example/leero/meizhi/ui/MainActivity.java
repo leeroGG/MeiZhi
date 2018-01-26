@@ -18,15 +18,19 @@ import com.example.leero.meizhi.base.BaseActivity;
 import com.example.leero.meizhi.bean.MeiZhi;
 import com.example.leero.meizhi.presenter.MeiZhiPresenterImpl;
 import com.example.leero.meizhi.ui.adapter.MeiZhiAdapter;
+import com.example.leero.meizhi.widget.CircleImageView;
 import com.example.leero.meizhi.widget.CustomLoadMoreView;
 import com.example.leero.meizhi.widget.SpacesItemDecoration;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         implements MainView, NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener,
         BaseQuickAdapter.RequestLoadMoreListener {
 
+    @BindView(R.id.iv_avatar)
+    CircleImageView avatarIv;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.fab)
@@ -63,12 +67,13 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
     protected void initView(Bundle state) {
         // 标题设置
         addToolbar("Girls", false);
+        avatarIv.setVisibility(View.VISIBLE);
 
         // recyclerView 设置
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
         //设置item之间的间隔
-        SpacesItemDecoration decoration=new SpacesItemDecoration(16);
+        SpacesItemDecoration decoration = new SpacesItemDecoration(16);
         recyclerView.addItemDecoration(decoration);
 
         // 上下拉设置
@@ -138,10 +143,15 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
         loadData();
     }
 
+    @OnClick(R.id.iv_avatar)
+    public void onViewClicked() {
+        drawerLayout.openDrawer(GravityCompat.START, true);
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_camera:
+            /*case R.id.nav_camera:
                 break;
             case R.id.nav_gallery:
                 break;
@@ -154,7 +164,7 @@ public class MainActivity extends BaseActivity<MeiZhiPresenterImpl>
             case R.id.nav_send:
                 break;
             default:
-                break;
+                break;*/
         }
 
         drawerLayout.closeDrawer(GravityCompat.START);
